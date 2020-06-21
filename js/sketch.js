@@ -18,16 +18,13 @@ function preload() {
   //url = "https://thewallpaper.co//wp-content/uploads/2017/09preview/ferns-mist-wallpapers-plants-forest-hd-nature-wallpapers-rainforest-landscape-moss-jungle-path-android-nature-trees.jpg"
   //back_img = loadImage("/img/jungle.jpg");
   //back_img = loadImage(url, ".jpg");
-  myFont = loadFont('AmaticSC-Bold.ttf');
+  //myFont = loadFont('AmaticSC-Bold.ttf');
 }
 
 function setup() {
   /* Sets default values*/
   createCanvas(windowWidth, windowHeight);
-  //background('#FFC360');
-  //background(255);
-  //image(back_img, 0, 0); // windowWidth, windowHeight);
-   //Sets background color to zero
+
 
   /* Stroke Size Selector */
   sel = createSelect();
@@ -49,7 +46,7 @@ const modelReady = () => {
 
 function draw() {
 
-  textFont(myFont, 12);
+  //textFont(myFont, 12);
   //clear();
    /* Drawing Section */
   //fill(255);
@@ -61,8 +58,9 @@ function draw() {
   /* Title and Description */
   textSize(36);
   strokeWeight(0);
-  fill(0);
-  textFont('Georgia');
+  //fill(0);
+  fill('rgba(0, 0, 0, 0.1)');
+  //textFont(myFont);
 
   /*
   text("Sketch and We'll Guess!", windowWidth-500, 100);
@@ -140,12 +138,19 @@ function draw() {
   displayBox(); //Calls function that draws the results box
 
   textSize(45);
-  fill(255);
+  //fill(255);
   strokeWeight(4);
 
   /* Prints latest results */
   text(label, windowWidth-455, windowHeight-340);
   text(confidence, windowWidth-455, windowHeight-220);
+
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+
+  clear();
 
 }
 
@@ -223,12 +228,12 @@ function gotResult(error, results) {
 function displayBox(results="") {
   /*Sets up the box where the results are displayed */
    noErase();
-   strokeWeight(5);
+   strokeWeight(1);
    stroke(255);
-   fill(0, 150);
-   rect(windowWidth * .81, windowHeight * .1, windowWidth * .15, windowHeight * .8, 20);
+   //fill('rgba(0, 0, 0, 0.2)');
+   rect(windowWidth * .7, windowHeight * .1, windowWidth * .25, windowHeight * .8, 20);
    textSize(20);
-   fill(0);
+   //fill(0);
    strokeWeight(0);
    text("Our guess!: ", windowWidth-485, windowHeight-400)
    text("How Confident we are: ", windowWidth-485, windowHeight-270);
