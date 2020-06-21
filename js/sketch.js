@@ -8,24 +8,26 @@ var eraser_on = 0;
 let e_color;
 let t_color;
 let sel;
+let back_img;
 let selected_weight;
 
 function preload() {
   // Load the Customized Image Classification model
   classifier = ml5.imageClassifier(imageModelURL + 'model.json', modelReady);
-  status = 'loading...'
+  //status = 'loading...'
+  //url = "https://thewallpaper.co//wp-content/uploads/2017/09preview/ferns-mist-wallpapers-plants-forest-hd-nature-wallpapers-rainforest-landscape-moss-jungle-path-android-nature-trees.jpg"
+  //back_img = loadImage("/img/jungle.jpg");
+  //back_img = loadImage(url, ".jpg");
+  myFont = loadFont('AmaticSC-Bold.ttf');
 }
 
 function setup() {
   /* Sets default values*/
-  createCanvas(windowWidth, windowHeight)
-  background('#FFC360'); //Sets background color to zero
-
-  /* Drawing Section */
-  fill(255);
-  strokeWeight(2);
-  rect(50, 50, windowWidth * .6, windowHeight * .8, 20);
-  stroke(0);
+  createCanvas(windowWidth, windowHeight);
+  //background('#FFC360');
+  //background(255);
+  //image(back_img, 0, 0); // windowWidth, windowHeight);
+   //Sets background color to zero
 
   /* Stroke Size Selector */
   sel = createSelect();
@@ -47,19 +49,28 @@ const modelReady = () => {
 
 function draw() {
 
+  //clear();
+   /* Drawing Section */
+  //fill(255);
+  noFill();
+  strokeWeight(2);
+  //stroke(255);
+  //rect(windowWidth * .1, windowHeight * .1, windowWidth * .7, windowHeight * .8, 20);
+
   /* Title and Description */
   textSize(36);
   strokeWeight(0);
   fill(0);
   textFont('Georgia');
 
+  /*
   text("Sketch and We'll Guess!", windowWidth-500, 100);
   textSize(20);
   text("Sketch any common animal you can think of and",  windowWidth-500, 140);
   text("this machine learning model will guess which", windowWidth-500, 170);
   text("animal you've sketched!", windowWidth-500, 200);
   text("Click 'Finished' to start the model.", windowWidth-500, 260);
-  text("Click 'Clear' to start a new sketch.", windowWidth-500, 320);
+  text("Click 'Clear' to start a new sketch.", windowWidth-500, 320); */
 
   strokeWeight(10);
   textSize(24);
@@ -69,7 +80,7 @@ function draw() {
   
   /* Eraser Button */
   button = createButton('Turn on Eraser');
-  button.position(windowWidth * .50, 60);
+  button.position(windowWidth * .15, 60);
   button.style('font-size', '20px');
   button.style('background-color', e_color);
   button.style('color', t_color);
@@ -185,12 +196,13 @@ function runModel() {
 
 function clrScreen() {
   /*Clears the whole screen */
-  background('#FFC360');
+  //background();
+  clear();
   label = "";
   confidence = "";
-  fill(255);
-  strokeWeight(2);
-  rect(50, 50, windowWidth * .6, windowHeight * .8, 20);
+  //fill(255);
+  //strokeWeight(2);
+  //rect(50, 50, windowWidth * .6, windowHeight * .8, 20);
 }
 
 
@@ -211,9 +223,9 @@ function displayBox(results="") {
   /*Sets up the box where the results are displayed */
    noErase();
    strokeWeight(5);
-   stroke(0);
-   fill('#FFC360');
-   rect(windowWidth-500, windowHeight-450, 400, 300, 20);
+   stroke(255);
+   fill(0, 150);
+   rect(windowWidth * .81, windowHeight * .1, windowWidth * .15, windowHeight * .8, 20);
    textSize(20);
    fill(0);
    strokeWeight(0);
