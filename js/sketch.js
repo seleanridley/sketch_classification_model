@@ -49,6 +49,7 @@ const modelReady = () => {
 
 function draw() {
 
+  textFont(myFont, 12);
   //clear();
    /* Drawing Section */
   //fill(255);
