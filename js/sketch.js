@@ -85,7 +85,7 @@ function setup() {
   sel3.position(windowWidth * .4,  windowHeight * .05);
   sel3.size(150, 25, 20);
   sel3.style('font-size', '16px');
-  sel.option('');
+  sel3.option('');
   sel3.option('cat');
   sel3.option('dog');
   sel3.option('lion');
