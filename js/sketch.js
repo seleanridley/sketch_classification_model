@@ -48,7 +48,6 @@ function setup() {
   sel = createSlider(5, 40, 10, 1);
   sel.position(windowWidth * .1,  windowHeight * .05);
   sel.size(150, 25, 20);
-  sel.changed(drawSize);
 
   if( mode == 2 ) {
     sel2 = createColorPicker('#ff0000');
@@ -142,61 +141,63 @@ function draw() {
         stroke( sel2.value() ); 
       } else if(eraser_on == 1 ) {
         stroke(255);
+      } else {
+        stroke(0);
       }
       strokeWeight(sel.value())
       line(mouseX, mouseY, pmouseX, pmouseY);
     }
   }
 
-  /* Clear and Finish buttons */
-  button = createButton('Save!');
-  button.position(windowWidth * .1, windowHeight * .92);
-  button.style('font-size', '20px');
-  button.style('color', 'white');
-  button.style('font-family', 'Georgia');
-  button.style('background-color', 'green');
-  button.size(150, 25, 20);
-  button.mousePressed(saveImage);
+  /* Save button */
+  button2 = createButton('Save!');
+  button2.position(windowWidth * .1, windowHeight * .92);
+  button2.style('font-size', '20px');
+  button2.style('color', 'white');
+  button2.style('font-family', 'Georgia');
+  button2.style('background-color', 'green');
+  button2.size(150, 25, 20);
+  button2.mousePressed(saveImage);
 
   /* Clear and Finish buttons */
-  button = createButton('Finished!');
-  button.position(windowWidth * .2, windowHeight * .92);
-  button.style('font-size', '20px');
-  button.style('color', 'white');
-  button.style('font-family', 'Georgia');
-  button.style('background-color', color(25, 23, 200));
-  button.size(150, 25, 20);
-  button.mousePressed(runModel);
+  button3 = createButton('Finished!');
+  button3.position(windowWidth * .2, windowHeight * .92);
+  button3.style('font-size', '20px');
+  button3.style('color', 'white');
+  button3.style('font-family', 'Georgia');
+  button3.style('background-color', color(25, 23, 200));
+  button3.size(150, 25, 20);
+  button3.mousePressed(runModel);
 
 
-  button = createButton('Clear');
-  button.position(windowWidth * .3, windowHeight * .92);
-  button.style('font-size', '20px');
-  button.style('color', 'white');
-  button.style('font-family', 'Georgia');
-  button.style('background-color', 'red');
-  button.size(150, 25, 20);
-  button.mousePressed(clrScreen); 
+  button4 = createButton('Clear');
+  button4.position(windowWidth * .3, windowHeight * .92);
+  button4.style('font-size', '20px');
+  button4.style('color', 'white');
+  button4.style('font-family', 'Georgia');
+  button4.style('background-color', 'red');
+  button4.mousePressed(clrScreen); 
 
   /* Mode buttons */
 
-  button = createButton('1');
-  button.position(windowWidth * .80, windowHeight * .5);
-  button.style('font-size', '20px');
-  button.style('color', 'white');
-  button.style('font-family', 'Georgia');
-  button.style('background-color', 'blue');
-  button.size(100, 30, 30);
-  button.mousePressed(switchMode1);
+  button5 = createButton('1');
+  button5.position(windowWidth * .80, windowHeight * .5);
+  button5.style('font-size', '20px');
+  button5.style('color', 'white');
+  button5.style('font-family', 'Georgia');
+  button5.style('background-color', 'blue');
+  button5.size(100, 30, 30);
+  button5.mousePressed(switchMode1);
 
-  button = createButton('2');
-  button.position(windowWidth * .8 + 150, windowHeight * .5);
-  button.style('font-size', '20px');
-  button.style('color', 'black');
-  button.style('font-family', 'ArmaticSC-Bold');
-  button.style('background-color', 'yellow');
-  button.size(100, 30, 30);
-  button.mousePressed(switchMode2);
+  button6 = createButton('2');
+  button6.position(windowWidth * .8 + 150, windowHeight * .5);
+  button6.style('font-size', '20px');
+  button6.style('color', 'black');
+  button6.style('font-family', 'ArmaticSC-Bold');
+  button6.style('background-color', 'yellow');
+  button6.size(100, 30, 30);
+  button6.mousePressed(switchMode2);
+
 
   displayBox(); /* Calls function that draws the results box */
 
@@ -236,21 +237,6 @@ function eraser() {
   } 
 }
 
-function drawSize() {
-  /* Toggles the stroke size */
-  switch(sel.value()) {
-    case '5px':
-      selected_weight = 5;
-      break;
-    case '10px':
-      selected_weight = 10;
-      break;
-    case '15px':
-      selected_weight = 15;
-      break;
-  } 
-}
-
 function changeColor() {
   /* Toggles stoke color */
   fill(sel2.value());
@@ -271,8 +257,6 @@ function switchMode2() {
 function pickPage() {
 /* Allows user to pick which coloring page */
   if(mode != 1){
-    fill(255);
-    rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
     switch( sel3.value() ) {
       case 'cat':
         image(cat, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
@@ -291,12 +275,12 @@ function clearResults() {
   /* Clears results from the screen */
   label = "";
   confidence = "";
-  displayBox();
+  displayResults();
 }
 
 function runModel() {
   /* Takes the drawing as an input and inputs into the classification model */
-  clearResults();
+  //clearResults();
   blendMode(SCREEN);
   img = get(windowWidth * .1, windowHeight * .1, (windowWidth * .75 - windowWidth * .1), (windowHeight * .9 - windowHeight * .1));
   img.loadPixels();
@@ -327,14 +311,19 @@ function saveImage() {
 function clrScreen() {
   /*Clears the whole screen */
   //background();
-  clear();
-  //background();
+  //clear();
+  //background(0);
+  //clearResults();
   label = "";
   confidence = "";
   fill(255);
   rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
 }
 
+function clrBoard() {
+  fill(255);
+  rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
+}
 
 // A function to run when we get any errors and the results
 function gotResult(error, results) {
@@ -366,4 +355,5 @@ function displayBox() {
    textAlign(LEFT);
    text("Our guess!: ", windowWidth * .79, windowHeight * .7)
    text("How Confident we are: ", windowWidth * .79, windowHeight * .8);
+   fill(0);
   }
