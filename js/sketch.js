@@ -231,8 +231,7 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-
+  //resizeCanvas(windowWidth, windowHeight);
   remove();
   let myp5 = new p5();
   setup();
@@ -291,7 +290,7 @@ function switchMode2() {
 function pickPage() {
 /* Allows user to pick which coloring page */
   switch( sel3.value() ) {
-    case 'cat':
+    case 'dog':
       console.log("Hello!");
       image(cat, windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8);
       break;
