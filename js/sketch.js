@@ -77,9 +77,9 @@ function setup() {
   } else {
   }
 
-   /* Stroke Size Selector */
+   /* Coloring Page Selector */
   sel3 = createSelect();
-  sel3.position(windowWidth * .5,  windowHeight * .05);
+  sel3.position(windowWidth * .4,  windowHeight * .05);
   sel3.size(150, 25, 20);
   sel3.style('font-size', '16px');
   sel3.option('cat');
@@ -292,6 +292,7 @@ function pickPage() {
 /* Allows user to pick which coloring page */
   switch( sel3.value() ) {
     case 'cat':
+      console.log("Hello!")
       image(cat, windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8);
       break;
   }
