@@ -292,7 +292,8 @@ function pickPage() {
 /* Allows user to pick which coloring page */
   switch( sel3.value() ) {
     case 'cat':
-
+      image(cat, windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8);
+      break;
   }
 }
 
