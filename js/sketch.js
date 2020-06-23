@@ -174,10 +174,10 @@ function draw() {
     (mouseY > windowHeight * 0.1) && 
     (mouseY < windowHeight * .8) ) {
       if( mode == 1 && eraser_on == 0) { 
-      stroke(0);
-      } else if(mode == 2) {
+        stroke(0);
+      } else if(mode == 2 && eraser_on == 0) {
         stroke( sel2.value() ); 
-      } else(eraser_on == 1 ) {
+      } else if(eraser_on == 1 ) {
         stroke(255);
       }
       strokeWeight(sel.value())
