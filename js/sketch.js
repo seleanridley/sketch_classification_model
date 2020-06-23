@@ -48,37 +48,13 @@ function setup() {
   sel = createSlider(5, 40, 10, 1);
   sel.position(windowWidth * .1,  windowHeight * .05);
   sel.size(150, 25, 20);
-  /*sel = createSelect();
-  sel.position(windowWidth * .1,  windowHeight * .05);
-  sel.size(150, 25, 20);
-  sel.style('font-size', '16px');
-  sel.option('5px');
-  sel.option('10px');
-  sel.option('15px');
-  sel.selected('10px'); */
   sel.changed(drawSize);
-
-  /*
-  sel2 = createSelect();
-  sel2.position(windowWidth * .3,  windowHeight * .05);
-  sel2.size(150, 25, 20);
-  sel2.style('font-size', '16px');
-  sel2.option('black');
-  sel2.option('red');
-  sel2.option('blue');
-  sel2.option('green');
-  sel2.option('yellow');
-  sel2.option('pink');
-  sel2.option('brown');
-  sel2.selected('black');
-  sel2.changed(changeColor); */
 
   if( mode == 2 ) {
     sel2 = createColorPicker('#ff0000');
     sel2.size(150, 25, 20);
     sel2.position(windowWidth * .3,  windowHeight * .05);
-  } else {
-  }
+  } 
 
    /* Coloring Page Selector */
   sel3 = createSelect();
@@ -88,12 +64,14 @@ function setup() {
   sel3.option('');
   sel3.option('cat');
   sel3.option('dog');
-  sel3.option('lion');
+  sel3.option('turtle');
   sel3.selected('');
   sel3.changed(pickPage);
 
   /* Load images */
   cat = loadImage('img/cat.png');
+  dog = loadImage('img/dog.png');
+  turtle = loadImage('img/turtle.png');
 } 
 
 const modelReady = () => {
@@ -123,7 +101,7 @@ function draw() {
     textAlign(CENTER);
     text("Sketch any common animal you can think of and this machine \
   learning model will guess which animal you've sketched. Click \
-  'Finished' to start the model and click 'Clear' to start a new sketch. \n\n  Mode '1' sketch model, Model '2' coloring book", 
+  'Finished' to start the model and click 'Clear' to start a new sketch. \n\n  Mode '1' sketch model, Mode '2' coloring book", 
       windowWidth * .8, windowHeight * .18, windowWidth * .15, windowHeight * .4);
 
     displayResults();
@@ -132,7 +110,7 @@ function draw() {
     textSize(18);
     fill(255);
     textAlign(CENTER);
-    text("Pick any animal to color! Click 'Save' to download your final image' and click 'Clear' to start a new sketch. . \n\n  Mode '1' sketch model, Model '2' coloring book", 
+    text("Pick any animal to color! Click 'Save' to download your final image' and click 'Clear' to start a new sketch. . \n\n  Mode '1' sketch model, Mode '2' coloring book", 
       windowWidth * .8, windowHeight * .18, windowWidth * .15, windowHeight * .4);
   }
   textAlign(LEFT);
@@ -151,26 +129,11 @@ function draw() {
   button.size(150, 25, 20);
   button.mousePressed(eraser);
 
-  /* Switches */
-  if(eraser_on == 0) {
-    stroke(0);
-  } else {
-    stroke(255);
-    strokeWeight(30);
-  }
-
-  if(selected_weight == 5) {
-    strokeWeight(5);
-  } else if(selected_weight == 10) {
-    strokeWeight(10);
-  } else {
-    strokeWeight(15);
-  }
 
   /* Draw functionality */
   if (mouseIsPressed == true) {
     if( (mouseX > windowWidth * 0.1) && 
-    (mouseX < windowWidth * .65) && 
+    (mouseX < windowWidth * .1 + windowWidth * .65) && 
     (mouseY > windowHeight * 0.1) && 
     (mouseY < windowHeight * .8) ) {
       if( mode == 1 && eraser_on == 0) { 
@@ -297,11 +260,18 @@ function switchMode2() {
 
 function pickPage() {
 /* Allows user to pick which coloring page */
-  switch( sel3.value() ) {
-    case 'cat':
-      console.log("Hello!");
-      image(cat, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
-      break;
+  if(mode != 1){
+    switch( sel3.value() ) {
+      case 'cat':
+        image(cat, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
+        break;
+    case 'dog':
+        image(dog, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
+        break;
+    case 'turtle':
+        image(turtle, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
+        break;
+    }
   }
 }
 
