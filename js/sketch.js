@@ -45,14 +45,17 @@ function setup() {
   rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
 
   /* Stroke Size Selector */
-  sel = createSelect();
+  sel = createSlider(5, 40, 10, 1);
+  sel.position(windowWidth * .1,  windowHeight * .05);
+  sel.size(150, 25, 20);
+  /*sel = createSelect();
   sel.position(windowWidth * .1,  windowHeight * .05);
   sel.size(150, 25, 20);
   sel.style('font-size', '16px');
   sel.option('5px');
   sel.option('10px');
   sel.option('15px');
-  sel.selected('10px');
+  sel.selected('10px'); */
   sel.changed(drawSize);
 
   /*
@@ -166,9 +169,9 @@ function draw() {
 
   /* Draw functionality */
   if (mouseIsPressed == true) {
-    if( (mouseX > 50) && 
-    (mouseX < windowWidth * .6) && 
-    (mouseY > 50) && 
+    if( (mouseX > windowWidth * 0.1) && 
+    (mouseX < windowWidth * .65) && 
+    (mouseY > windowHeight * 0.1) && 
     (mouseY < windowHeight * .8) ) {
       if( mode == 1) { 
       stroke(0);
