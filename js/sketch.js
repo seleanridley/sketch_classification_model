@@ -271,7 +271,8 @@ function switchMode2() {
 function pickPage() {
 /* Allows user to pick which coloring page */
   if(mode != 1){
-    clrScreen();
+    fill(255);
+    rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
     switch( sel3.value() ) {
       case 'cat':
         image(cat, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
