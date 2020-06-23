@@ -82,10 +82,11 @@ function setup() {
   sel3.position(windowWidth * .4,  windowHeight * .05);
   sel3.size(150, 25, 20);
   sel3.style('font-size', '16px');
+  sel.option('');
   sel3.option('cat');
   sel3.option('dog');
   sel3.option('lion');
-  //sel3.selected('cat');
+  sel3.selected('');
   sel3.changed(pickPage);
 
   /* Load images */
@@ -228,6 +229,7 @@ function draw() {
   text(label, windowWidth * .79, windowHeight * .75);
   text(confidence, windowWidth * .79, windowHeight * .85);
 
+  pickPage();
 }
 
 function windowResized() {
