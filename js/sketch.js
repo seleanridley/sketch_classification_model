@@ -304,8 +304,8 @@ function runModel() {
 
 function saveImage() {
   /* Allows user to save their masterpieces */
-  img = get(windowWidth * .1, windowHeight * .1, (windowWidth * .75 - windowWidth * .1), (windowHeight * .9 - windowHeight * .1));
-  saveImage(img, "your_masterpiece.jpg");
+  img2 = get(windowWidth * .1, windowHeight * .1, (windowWidth * .75 - windowWidth * .1), (windowHeight * .9 - windowHeight * .1));
+  save(img2, "your_masterpiece.jpg");
 }
 
 function clrScreen() {
