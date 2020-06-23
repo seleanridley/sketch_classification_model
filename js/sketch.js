@@ -85,11 +85,11 @@ function setup() {
   sel3.option('cat');
   sel3.option('dog');
   sel3.option('lion');
-  sel3.selected('cat');
+  //sel3.selected('cat');
   sel3.changed(pickPage);
 
   /* Load images */
-  cat = loadImage('img/cat.jpg');
+  cat = loadImage('img/cat.png');
 } 
 
 const modelReady = () => {
@@ -290,9 +290,9 @@ function switchMode2() {
 function pickPage() {
 /* Allows user to pick which coloring page */
   switch( sel3.value() ) {
-    case 'dog':
+    case 'cat':
       console.log("Hello!");
-      image(cat, windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8);
+      image(cat, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
       break;
   }
 }
