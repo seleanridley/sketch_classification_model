@@ -149,6 +149,16 @@ function draw() {
   }
 
   /* Clear and Finish buttons */
+  button = createButton('Save!');
+  button.position(windowWidth * .1, windowHeight * .92);
+  button.style('font-size', '20px');
+  button.style('color', 'white');
+  button.style('font-family', 'Georgia');
+  button.style('background-color', 'green');
+  button.size(150, 25, 20);
+  button.mousePressed(saveImage);
+
+  /* Clear and Finish buttons */
   button = createButton('Finished!');
   button.position(windowWidth * .2, windowHeight * .92);
   button.style('font-size', '20px');
@@ -261,6 +271,7 @@ function switchMode2() {
 function pickPage() {
 /* Allows user to pick which coloring page */
   if(mode != 1){
+    clrScreen();
     switch( sel3.value() ) {
       case 'cat':
         image(cat, windowWidth * .2, windowHeight * .1, windowWidth * .45, windowHeight * .8);
@@ -304,6 +315,12 @@ function runModel() {
   //image(img, 0, 0, windowWidth, windowHeight);
   p = classifier.classify(img, gotResult);
 
+}
+
+function saveImage() {
+  /* Allows user to save their masterpieces */
+  img = get(windowWidth * .1, windowHeight * .1, (windowWidth * .75 - windowWidth * .1), (windowHeight * .9 - windowHeight * .1));
+  saveImage(img, "your_masterpiece.jpg");
 }
 
 function clrScreen() {
