@@ -3,32 +3,50 @@ let classifier;
 let confidence = "";
 var save_s = 0;
 let label = "";
-let imageModelURL = "https://teachablemachine.withgoogle.com/models/eofyaIwDh/";
+let imageModelURL = "https://teachablemachine.withgoogle.com/models/Gd93sQe9W/";
 var eraser_on = 0;
 let e_color;
 let t_color;
 let sel;
+let sel2;
+let sel3;
 let back_img;
 let selected_weight;
+let selected_color;
+let pg;
+let myFont;
+let c;
+var mode = 1;
+
 
 function preload() {
   // Load the Customized Image Classification model
   classifier = ml5.imageClassifier(imageModelURL + 'model.json', modelReady);
   //status = 'loading...'
   //url = "https://thewallpaper.co//wp-content/uploads/2017/09preview/ferns-mist-wallpapers-plants-forest-hd-nature-wallpapers-rainforest-landscape-moss-jungle-path-android-nature-trees.jpg"
-  //back_img = loadImage("/img/jungle.jpg");
   //back_img = loadImage(url, ".jpg");
   //myFont = loadFont('AmaticSC-Bold.ttf');
+  
+
 }
 
 function setup() {
+
   /* Sets default values*/
   createCanvas(windowWidth, windowHeight);
+  background('rgba(0, 0, 0, 1)');
 
+  /* Drawing Section */
+  fill(255);
+  //noFill();
+  //strokeWeight(300);
+  strokeWeight(2);
+  stroke(255);
+  rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
 
   /* Stroke Size Selector */
   sel = createSelect();
-  sel.position(80,  60);
+  sel.position(windowWidth * .1,  windowHeight * .05);
   sel.size(150, 25, 20);
   sel.style('font-size', '16px');
   sel.option('5px');
@@ -37,49 +55,91 @@ function setup() {
   sel.selected('10px');
   sel.changed(drawSize);
 
-}
+  /*
+  sel2 = createSelect();
+  sel2.position(windowWidth * .3,  windowHeight * .05);
+  sel2.size(150, 25, 20);
+  sel2.style('font-size', '16px');
+  sel2.option('black');
+  sel2.option('red');
+  sel2.option('blue');
+  sel2.option('green');
+  sel2.option('yellow');
+  sel2.option('pink');
+  sel2.option('brown');
+  sel2.selected('black');
+  sel2.changed(changeColor); */
+
+  if( mode == 2 ) {
+    sel2 = createColorPicker('#ff0000');
+    sel2.size(150, 25, 20);
+    sel2.position(windowWidth * .3,  windowHeight * .05);
+  } else {
+  }
+
+   /* Stroke Size Selector */
+  sel3 = createSelect();
+  sel3.position(windowWidth * .5,  windowHeight * .05);
+  sel3.size(150, 25, 20);
+  sel3.style('font-size', '16px');
+  sel3.option('cat');
+  sel3.option('dog');
+  sel3.option('lion');
+  sel3.selected('cat');
+  sel3.changed(pickPage);
+
+  /* Load images */
+  cat = loadImage('img/cat.jpg');
+} 
 
 const modelReady = () => {
   status = 'loaded model!';
   //classifier.predict(img);
 }
 
+
+
 function draw() {
+
+  
 
   //textFont(myFont, 12);
   //clear();
-   /* Drawing Section */
-  //fill(255);
-  noFill();
-  strokeWeight(2);
-  //stroke(255);
-  //rect(windowWidth * .1, windowHeight * .1, windowWidth * .7, windowHeight * .8, 20);
-
+ 
   /* Title and Description */
-  textSize(36);
+  textSize(24);
   strokeWeight(0);
-  //fill(0);
-  fill('rgba(0, 0, 0, 0.1)');
-  //textFont(myFont);
+  //fill('rgba(0, 0, 0, 0.1)');
 
-  /*
-  text("Sketch and We'll Guess!", windowWidth-500, 100);
-  textSize(20);
-  text("Sketch any common animal you can think of and",  windowWidth-500, 140);
-  text("this machine learning model will guess which", windowWidth-500, 170);
-  text("animal you've sketched!", windowWidth-500, 200);
-  text("Click 'Finished' to start the model.", windowWidth-500, 260);
-  text("Click 'Clear' to start a new sketch.", windowWidth-500, 320); */
+  fill(color(0, 50, 240));
+  if( mode == 1) {
+    text("Sketch and We'll Guess!", windowWidth * .8, windowHeight * .15);
+    textSize(18);
+    fill(255);
+    textAlign(CENTER);
+    text("Sketch any common animal you can think of and this machine \
+  learning model will guess which animal you've sketched. Click \
+  'Finished' to start the model and click 'Clear' to start a new sketch. \n\n  Mode '1' sketch model, Model '2' coloring book", 
+      windowWidth * .8, windowHeight * .18, windowWidth * .15, windowHeight * .4);
 
+    displayResults();
+  } else {
+    text("Animal Coloring Book", windowWidth * .8, windowHeight * .15);
+    textSize(18);
+    fill(255);
+    textAlign(CENTER);
+    text("Pick any animal to color! Click 'Save' to download your final image' and click 'Clear' to start a new sketch. . \n\n  Mode '1' sketch model, Model '2' coloring book", 
+      windowWidth * .8, windowHeight * .18, windowWidth * .15, windowHeight * .4);
+  }
+  textAlign(LEFT);
   strokeWeight(10);
   textSize(24);
-
-  //Drawing Section
-  //noFill();
   
+
+
   /* Eraser Button */
   button = createButton('Turn on Eraser');
-  button.position(windowWidth * .15, 60);
+  button.position(windowWidth * .2, windowHeight * .05);
   button.style('font-size', '20px');
   button.style('background-color', e_color);
   button.style('color', t_color);
@@ -87,7 +147,6 @@ function draw() {
   button.size(150, 25, 20);
   button.mousePressed(eraser);
 
-  
   /* Switches */
   if(eraser_on == 0) {
     stroke(0);
@@ -110,47 +169,74 @@ function draw() {
     (mouseX < windowWidth * .6) && 
     (mouseY > 50) && 
     (mouseY < windowHeight * .8) ) {
+      if( mode == 1) { 
+      stroke(0);
+      } else {
+        stroke( sel2.value() ); 
+      }
       line(mouseX, mouseY, pmouseX, pmouseY);
     }
   }
 
   /* Clear and Finish buttons */
   button = createButton('Finished!');
-  button.position(100, windowHeight-100);
+  button.position(windowWidth * .2, windowHeight * .92);
   button.style('font-size', '20px');
   button.style('color', 'white');
   button.style('font-family', 'Georgia');
-  button.style('background-color', 'blue');
+  button.style('background-color', color(25, 23, 200));
   button.size(150, 25, 20);
   button.mousePressed(runModel);
 
+
   button = createButton('Clear');
-  button.position(400, windowHeight-100);
+  button.position(windowWidth * .3, windowHeight * .92);
   button.style('font-size', '20px');
   button.style('color', 'white');
   button.style('font-family', 'Georgia');
   button.style('background-color', 'red');
   button.size(150, 25, 20);
-  button.mousePressed(clrScreen);
+  button.mousePressed(clrScreen); 
 
+  /* Mode buttons */
 
+  button = createButton('1');
+  button.position(windowWidth * .80, windowHeight * .5);
+  button.style('font-size', '20px');
+  button.style('color', 'white');
+  button.style('font-family', 'Georgia');
+  button.style('background-color', 'blue');
+  button.size(100, 30, 30);
+  button.mousePressed(switchMode1);
 
-  displayBox(); //Calls function that draws the results box
+  button = createButton('2');
+  button.position(windowWidth * .8 + 150, windowHeight * .5);
+  button.style('font-size', '20px');
+  button.style('color', 'black');
+  button.style('font-family', 'ArmaticSC-Bold');
+  button.style('background-color', 'yellow');
+  button.size(100, 30, 30);
+  button.mousePressed(switchMode2);
 
-  textSize(45);
+  displayBox(); /* Calls function that draws the results box */
+
+  textSize(32);
   //fill(255);
-  strokeWeight(4);
+  //strokeWeight(4);
 
   /* Prints latest results */
-  text(label, windowWidth-455, windowHeight-340);
-  text(confidence, windowWidth-455, windowHeight-220);
+  text(label, windowWidth * .79, windowHeight * .75);
+  text(confidence, windowWidth * .79, windowHeight * .85);
 
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 
-  clear();
+  remove();
+  let myp5 = new p5();
+  setup();
+  draw();
 
 }
 
@@ -185,6 +271,31 @@ function drawSize() {
   } 
 }
 
+function changeColor() {
+  /* Toggles stoke color */
+  fill(sel2.value());
+}
+
+function switchMode1() {
+  clrScreen();
+  mode = 1;
+  setup();
+}
+
+function switchMode2() {
+  mode = 2;
+  clrScreen();
+  setup();
+}
+
+function pickPage() {
+/* Allows user to pick which coloring page */
+  switch( sel3.value() ) {
+    case 'cat':
+
+  }
+}
+
 function clearResults() {
   /* Clears results from the screen */
   label = "";
@@ -195,7 +306,23 @@ function clearResults() {
 function runModel() {
   /* Takes the drawing as an input and inputs into the classification model */
   clearResults();
-  img = get(50, 50, windowWidth * .6, windowHeight * .8);
+  blendMode(SCREEN);
+  img = get(windowWidth * .1, windowHeight * .1, (windowWidth * .75 - windowWidth * .1), (windowHeight * .9 - windowHeight * .1));
+  img.loadPixels();
+  for (let x = 0; x < img.width; x++) {
+    for (let y = 0; y < img.height; y++) {
+      var index = (x + (y * img.width)) * 4;
+/*
+      if(img.pixels[index] == 255) {
+        img.set(x, y, color(0));
+      } else {
+        img.set(x, y, color(255));
+      }  */
+    }
+  }
+  img.updatePixels();
+  //save(img, 'test.jpg');
+  //image(img, 0, 0, windowWidth, windowHeight);
   p = classifier.classify(img, gotResult);
 
 }
@@ -204,11 +331,11 @@ function clrScreen() {
   /*Clears the whole screen */
   //background();
   clear();
+  //background();
   label = "";
   confidence = "";
-  //fill(255);
-  //strokeWeight(2);
-  //rect(50, 50, windowWidth * .6, windowHeight * .8, 20);
+  fill(255);
+  rect(windowWidth * .1, windowHeight * .1, windowWidth * .65, windowHeight * .8, 20);
 }
 
 
@@ -225,17 +352,21 @@ function gotResult(error, results) {
   confidence = nf(results[0].confidence, 0, 2) * 100 + "%";
 }
 
-function displayBox(results="") {
+function displayBox() {
   /*Sets up the box where the results are displayed */
    noErase();
    strokeWeight(1);
    stroke(255);
-   //fill('rgba(0, 0, 0, 0.2)');
-   rect(windowWidth * .7, windowHeight * .1, windowWidth * .25, windowHeight * .8, 20);
-   textSize(20);
-   //fill(0);
-   strokeWeight(0);
-   text("Our guess!: ", windowWidth-485, windowHeight-400)
-   text("How Confident we are: ", windowWidth-485, windowHeight-270);
+   noFill();
+   rect(windowWidth * .78, windowHeight * .1, windowWidth * .2, windowHeight * .8, 20);
+  
+  }
 
+  function displayResults(results="") {
+   textSize(20);
+   fill(255);
+   strokeWeight(0);
+   textAlign(LEFT);
+   text("Our guess!: ", windowWidth * .79, windowHeight * .7)
+   text("How Confident we are: ", windowWidth * .79, windowHeight * .8);
   }
